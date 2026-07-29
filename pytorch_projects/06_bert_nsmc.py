@@ -20,6 +20,15 @@
 # 첫 셀에 이것부터 실행:
 #   !pip install -q transformers
 #
+# ※ 로컬(특히 인텔 맥)에서 돌릴 때 주의 — 코랩은 해당 없음
+#   torch 가 2.2.x 에 묶여 있으면(인텔 맥의 상한) 최신 transformers 5.x 가
+#   torch 를 인식하지 못하고 이런 오류를 냅니다.
+#       ImportError: Unable to convert output to PyTorch tensors format,
+#                    PyTorch is not installed.
+#   torch 는 멀쩡히 깔려 있는데도 이렇게 나옵니다. 해결은 버전을 낮추는 것입니다.
+#       pip install "transformers<5"      (4.57.x 에서 정상 동작 확인)
+#   코랩은 최신 torch 라 그냥 !pip install transformers 로 됩니다.
+#
 # 걸리는 시간: GPU 로 5분 안팎
 # ============================================================
 import torch
@@ -158,7 +167,18 @@ for epoch in range(EPOCHS):
           f'   (손실 {tr_loss:.4f} / {te_loss:.4f})')
 
 print('''
-  2 에폭만으로 85% 정도 나옵니다.
+  강사 맥북 실측 (CPU, 학습 6000개 / 시험 1500개, 최대길이 64):
+      epoch 0   학습 67.8%   시험 77.5%
+      epoch 1   학습 81.5%   시험 80.3%
+  80% 안팎이면 정상입니다.
+
+  왜 90% 가 안 나오나요?
+    ① 다국어 BERT 라 한국어 전용 모델(KoBERT 등)보다 불리합니다.
+    ② 수업용으로 6000개만 씁니다. 전체 15만개를 쓰면 더 오릅니다.
+    ③ 최대길이 64 로 잘라서 긴 리뷰는 뒷부분이 버려집니다.
+    ④ 2 에폭이면 짧습니다.
+
+  그런데도 한국어를 따로 가르친 적이 없는 모델이 영화평을 80% 맞힙니다.
   처음부터 학습시켰다면 이 정확도에 며칠이 걸립니다.
   -> 이게 전이학습의 힘입니다.''')
 
