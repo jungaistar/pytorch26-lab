@@ -47,6 +47,20 @@ const isBanner = (l) => /^#\s*={10,}\s*$/.test(l ?? '')
 const isRule = (l) => /^print\('=' \* \d+\)$/.test((l ?? '').trim())
 const isSub = (l) => /^#\s*──/.test(l ?? '')
 const isDef = (l) => /^(def |class |@|for |while |with )/.test(l ?? '')
+
+// ★ 데코레이터 뒤에서는 끊지 않는다 (2026-07-30 실제 사고)
+//   @ 도 def 도 둘 다 경계로 봤더니, @torch.no_grad() 다음 줄의 def 에서
+//   또 끊겨 ==데코레이터만 남은 셀== 이 12곳 생겼다.
+//   단계별로 실행하면 그 셀에서 SyntaxError 가 난다(데코레이터는 혼자 못 쓴다).
+//   버려진 것은 아니라 눈으로는 안 보이고, 셀을 하나씩 돌려 봐야 드러난다.
+const afterDecorator = (lines, i) => {
+  for (let k = i - 1; k >= 0; k--) {
+    const t = (lines[k] ?? '').trim()
+    if (!t) continue
+    return t.startsWith('@')
+  }
+  return false
+}
 // 문자열(덩어리)과 배열(버퍼) 둘 다 받는다
 const hasCode = (x) =>
   (Array.isArray(x) ? x : String(x).split('\n'))
@@ -77,6 +91,7 @@ function splitCells(src) {
     const line = lines[i]
     const cut =
       hasCode(cur) &&
+      !afterDecorator(lines, i) &&          // 데코레이터와 def 사이는 붙여 둔다
       ((line.trim() === 'print()' && isRule(lines[i + 1])) ||
         opensBanner(lines, i) ||
         isDef(line) ||
