@@ -15,7 +15,10 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { execFileSync } from 'node:child_process'
 
-const root = process.argv[2] || 'book'
+// 기본값이 'book' 이었다. 그건 pytorch-study(원고 저장소) 배치라
+// 여기서는 ENOENT 로 죽는다 — 스크립트를 그쪽에서 가져오면서 딸려 온 값이다.
+// 이 저장소는 노트북이 뿌리 밑에 흩어져 있으므로 '.' 이 맞다.
+const root = process.argv[2] || '.'
 const text = (c) => (Array.isArray(c.source) ? c.source.join('') : String(c.source || ''))
 const isMagic = (l) => /^\s*[!%]{1,2}[A-Za-z_]/.test(l)   // 기호 뒤에 이름이 있어야 매직
 
@@ -39,6 +42,11 @@ for (const f of files) {
     if (c.cell_type !== 'code') continue
     const src = text(c)
     if (!src.trim()) continue
+    // %%셀매직 은 그 셀 전체의 언어를 바꾼다 (%%writefile 이면 셀 내용이 파일 내용).
+    // 파이썬으로 검사하면 안 된다. (2026-07-30 — coco8.yaml 셀에서 밟음)
+    const firstLine = src.split('\n').find((l) => l.trim())
+    if (firstLine && /^\s*%%/.test(firstLine)) continue
+
     const clean = src.split('\n').filter((l) => !isMagic(l)).join('\n')
     cells++
     try {
