@@ -188,7 +188,7 @@ for (const [day, meta] of Object.entries(DAYS)) {
 
 **PyTorch로 배우는 강화학습 · ${meta.label} ${meta.theme} · ${meta.date}**
 
-이애본 (Ph.D Aebon) · DreamIT Biz · https://pytorch26.dreamitbiz.com
+이애본 (Aebon, Ph.D) · DreamIT Biz · https://pytorch26.dreamitbiz.com
 
 ---
 ${goals.length ? `\n## 🎯 학습목표\n\n${goals.map((g) => `- ${g}`).join('\n')}\n\n---\n` : ''}
@@ -248,7 +248,7 @@ ${prep ? `먼저 **준비 코드** 한 칸을 실행하고(앞 교시에서 만�
 
 ---
 
-*Ph.D Aebon & Claude Code 협작 전자출판 도서 · © 2026 DreamIT Biz*`))
+*Aebon, Ph.D & Claude Code 협작 전자출판 도서 · © 2026 DreamIT Biz*`))
 
     const nb = {
       nbformat: 4, nbformat_minor: 0,

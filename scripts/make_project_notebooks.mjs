@@ -162,7 +162,7 @@ for (const [id, m] of Object.entries(META)) {
 
 **파이토치 응용 프로젝트 · ${m.chapter} · 걸리는 시간 ${m.minutes}**
 
-이애본 (Ph.D Aebon) · DreamIT Biz · https://pytorch26.dreamitbiz.com
+이애본 (Aebon, Ph.D) · DreamIT Biz · https://pytorch26.dreamitbiz.com
 
 ---
 
@@ -240,7 +240,7 @@ ${m.pip}`))
 
 ---
 
-*Ph.D Aebon & Claude Code 협작 전자출판 도서 · © 2026 DreamIT Biz*`))
+*Aebon, Ph.D & Claude Code 협작 전자출판 도서 · © 2026 DreamIT Biz*`))
 
   const nb = {
     nbformat: 4,
