@@ -86,7 +86,7 @@ pip install "gymnasium[box2d]" numpy matplotlib
 
 ```
 cd %USERPROFILE%\Desktop
-git clone https://github.com/aebonlee/pytorch26-lab.git
+git clone https://github.com/jungaistar/pytorch26-lab.git
 cd pytorch26-lab
 ```
 

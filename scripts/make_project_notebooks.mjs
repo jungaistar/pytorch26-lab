@@ -25,7 +25,7 @@ import { fileURLToPath } from 'node:url'
 
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 const LAB = path.join(HERE, '..')
-const RAW = 'https://raw.githubusercontent.com/aebonlee/pytorch26-lab/main/pytorch_projects'
+const RAW = 'https://raw.githubusercontent.com/jungaistar/pytorch26-lab/main/pytorch_projects'
 
 const OUT_DIR = process.argv[2]
 if (!OUT_DIR) {
